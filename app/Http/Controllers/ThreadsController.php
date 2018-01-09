@@ -84,6 +84,18 @@ class ThreadsController extends Controller
         ]);
     }
 
+    public function destroy($chnnel, Thread $thread)
+    {
+        $this->authorize('delete', $thread);
+
+        $thread->delete();
+
+        if (request()->wantsJson()) {
+            return response([], 204);
+        }
+
+        return redirect('/threads');
+    }
     /**
      * Fetch all relevant threads.
      *

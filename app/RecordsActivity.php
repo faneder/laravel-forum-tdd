@@ -18,7 +18,7 @@ trait RecordsActivity
             });
         }
 
-        // only fire on the model
+        // only fire on the model ex: $favorite->delete();
         static::deleting(function ($model) {
             $model->activity()->delete();
         });

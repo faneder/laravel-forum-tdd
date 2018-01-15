@@ -22,6 +22,13 @@ class Reply extends Model
      */
     protected $with = ['owner', 'favorites'];
 
+    /* 
+     * The accessors to append to the model's array form
+     *
+     * @var array
+     */
+    protected $appends = ['favoritesCount', 'isFavorited'];
+
     /**
      * A reply has an owner.
      *
@@ -35,5 +42,10 @@ class Reply extends Model
     public function thread()
     {
         return $this->belongsTo(Thread::class);
+    }
+
+    public function path()
+    {
+        return $this->thread->path() . "#reply-{$this->id}";
     }
 }

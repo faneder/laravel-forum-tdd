@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Thread;
+use App\Reply;
 
 class RepliesController extends Controller
 {
@@ -31,5 +32,39 @@ class RepliesController extends Controller
         ]);
 
         return back()->with('flash', 'your reply has been lefe');
+    }
+
+    /**
+     * destroy a reply
+     *
+     * @param  Reply  $reply
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function destroy(Reply $reply)
+    {
+        $this->authorize('update', $reply);
+
+        $reply->delete();
+
+        if (request()->expectsJson()) {
+            return response(['status' => 'reply deleted']);
+        }
+
+        return back();
+    }
+
+    /**
+     * update a reply
+     *
+     * @param  Reply  $reply
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function update(Reply $reply)
+    {
+        $this->authorize('update', $reply);
+
+        $this->validate(request(), ['body' => 'required']);
+
+        $reply->update(request(['body']));
     }
 }

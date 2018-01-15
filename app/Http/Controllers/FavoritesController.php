@@ -24,6 +24,19 @@ class FavoritesController extends Controller
     {
         $reply->favorite();
 
-        return back();
+        return response(['msg' => 'Success Created'], 201);
+    }
+
+    /**
+     * delete a new favorite in the database.
+     *
+     * @param  Reply $reply
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public function destroy(Reply $reply)
+    {
+        $reply->unfavorite();
+
+        return response(['msg' => 'Removed'], 301);
     }
 }

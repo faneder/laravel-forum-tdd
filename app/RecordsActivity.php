@@ -18,6 +18,7 @@ trait RecordsActivity
             });
         }
 
+        // only fire on the model
         static::deleting(function ($model) {
             $model->activity()->delete();
         });

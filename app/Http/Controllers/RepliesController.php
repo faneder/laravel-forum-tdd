@@ -26,11 +26,15 @@ class RepliesController extends Controller
     {
         $this->validate(request(), ['body' => 'required']);
 
-        $thread->addReply([
+        $reply = $thread->addReply([
             'body' => request('body'),
             'user_id' => auth()->id()
         ]);
 
+        if (request()->expectsJson()) {
+            return $reply->load('owner');
+        }
+        
         return back()->with('flash', 'your reply has been lefe');
     }
 

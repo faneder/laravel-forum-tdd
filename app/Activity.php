@@ -4,11 +4,10 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-
 class Activity extends Model
 {
 
- 	/**
+    /**
     * Don't auto-apply mass assignment protection.
     *
     * @var array
@@ -20,10 +19,10 @@ class Activity extends Model
     *
     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
     */
-	public function subject()
-	{
-	    return $this->morphTo();
-	}
+    public function subject()
+    {
+        return $this->morphTo();
+    }
 
     public static function feed($user, $take = 50)
     {

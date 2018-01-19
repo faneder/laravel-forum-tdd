@@ -59,20 +59,20 @@ trait Favoritable
     /**
      * remove favorite in the current reply.
      */
-     public function unfavorite()
-     {
-         $attributes = ['user_id' => auth()->id()];
+    public function unfavorite()
+    {
+        $attributes = ['user_id' => auth()->id()];
 
-         $this->favorites()->where($attributes)->get()->each->delete();
-     }
+        $this->favorites()->where($attributes)->get()->each->delete();
+    }
 
      /**
       * Fetch the favorited status as a property.
       *
       * @return bool
       */
-     public function getIsFavoritedAttribute()
-     {
-         return $this->isFavorited();
-     }
+    public function getIsFavoritedAttribute()
+    {
+        return $this->isFavorited();
+    }
 }

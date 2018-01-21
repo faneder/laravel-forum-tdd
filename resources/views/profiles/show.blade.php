@@ -17,6 +17,7 @@
                         @if (view()->exists("profiles.activities.{$record->type}"))
                             @include ("profiles.activities.{$record->type}", ['activity' => $record])
                         @endif
+                    @endforeach
                 @empty
                     <p>There is no activity for this user yet.</p>
                 @endforelse

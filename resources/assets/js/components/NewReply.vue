@@ -2,31 +2,29 @@
     <div>
         <div v-if="signedIn">
             <div class="form-group">
-                <textarea 
-                    name="body"    
-                    id="body"
-                    class="form-control"
-                    placeholder="have something to say?"
-                    rows="5"
-                    required
-                    v-model="body" />
+                <textarea name="body"
+                          id="body"
+                          class="form-control"
+                          placeholder="Have something to say?"
+                          rows="5"
+                          required
+                          v-model="body"></textarea>
             </div>
 
-            <button
-                type="submit"
-                class="btn btn-default"
-                @click="addReply">Post</button>
+            <button type="submit"
+                    class="btn btn-default"
+                    @click="addReply">Post</button>
         </div>
 
         <p class="text-center" v-else>
-            please <a href="/login">sign in</a> to participate discussion.
+            Please <a href="/login">sign in</a> to participate in this
+            discussion.
         </p>
     </div>
 </template>
 
 <script>
     export default {
-        props: ['endpoint'],
 
         data() {
             return {
@@ -36,23 +34,21 @@
 
         computed: {
             signedIn() {
-                return window.App.signedIn
+                return window.App.signedIn;
             }
         },
 
-        method: {
+        methods: {
             addReply() {
-                axios.post(this.endpoint, { body: this.body })
-                     .then(({data}) => {
-                         this.body = '';
+                axios.post(location.pathname + '/replies', { body: this.body })
+                    .then(({data}) => {
+                        this.body = '';
 
-                         flash('your reply has been posted');
+                        flash('Your reply has been posted.');
 
-                         this.$emit('created', data);
-                     });
+                        this.$emit('created', data);
+                    });
             }
         }
-
     }
 </script>
-

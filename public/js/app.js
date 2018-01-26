@@ -2117,6 +2117,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
     components: { Reply: __WEBPACK_IMPORTED_MODULE_0__Reply_vue___default.a, NewReply: __WEBPACK_IMPORTED_MODULE_1__NewReply_vue___default.a },
     mixins: [__WEBPACK_IMPORTED_MODULE_2__mixins_collection__["a" /* default */]],
@@ -2143,6 +2144,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             this.dataSet = data;
             this.items = data.data;
+
+            window.scrollTo(0, 0);
         }
     }
 });
@@ -2288,8 +2291,7 @@ window.Vue = __webpack_require__(58);
 Vue.prototype.authorize = function (handler) {
   // add admin 
   var user = window.App.user;
-  console.log('handler');
-  console.log(handler);
+
   return user ? handler(user) : false;
 };
 
@@ -44049,8 +44051,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     computed: {
         shoudlPaginate: function shoudlPaginate() {
-            console.log(this.prevUrl);
-            console.log(!!this.prevUrl);
             return !!this.prevUrl || !!this.nextUrl;
         }
     },

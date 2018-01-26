@@ -22,8 +22,7 @@ window.Vue = require('vue');
 Vue.prototype.authorize = function (handler) {
     // add admin 
     let user = window.App.user;
-    console.log('handler');
-    console.log(handler);
+
     return user ? handler(user) : false;
 };
 

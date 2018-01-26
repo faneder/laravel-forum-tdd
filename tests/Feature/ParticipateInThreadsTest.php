@@ -27,8 +27,8 @@ class ParticipateInThreadsTest extends TestCase
 
         $this->post($thread->path() . '/replies', $reply->toArray());
 
-        $this->get($thread->path())
-            ->assertSee($reply->body);
+        $this->assertDatabaseHas('replies', ['body' => $reply->body]);
+        $this->assertEquals(1, $thread->fresh()->replies_count);
     }
 
     /** @test */
@@ -43,7 +43,8 @@ class ParticipateInThreadsTest extends TestCase
              ->assertSessionHasErrors('body');
     }
 
-    function test_unauthenticated_users_may_not_delete_replies()
+    /** @test */
+    function unauthorized_users_cannot_delete_replies()
     {
         $this->withExceptionHandling();
 
@@ -58,7 +59,7 @@ class ParticipateInThreadsTest extends TestCase
     }
 
     /** @test */
-    function test_authorized_users_can_delete_replies()
+    function authorized_users_can_delete_replies()
     {
         $this->signIn();
         $reply = create('App\Reply', ['user_id' => auth()->id()]);
@@ -66,9 +67,12 @@ class ParticipateInThreadsTest extends TestCase
         $this->delete("/replies/{$reply->id}")->assertStatus(302);
 
         $this->assertDatabaseMissing('replies', ['id' => $reply->id]);
+
+        $this->assertEquals(0, $reply->thread->fresh()->replies_count);
     }
 
-    function test_unauthorized_users_cannot_update_replies()
+    /** @test */
+    function unauthorized_users_cannot_update_replies()
     {
         $this->withExceptionHandling();
 
@@ -82,16 +86,16 @@ class ParticipateInThreadsTest extends TestCase
             ->assertStatus(403);
     }
 
-    function test_authorized_users_can_update_replies()
+    /** @test */
+    function authorized_users_can_update_replies()
     {
-        $updateBody = 'update';
-
         $this->signIn();
-        
+
         $reply = create('App\Reply', ['user_id' => auth()->id()]);
 
-        $this->patch("/replies/{$reply->id}", ['body' => $updateBody]);
+        $updatedReply = 'You been changed, fool.';
+        $this->patch("/replies/{$reply->id}", ['body' => $updatedReply]);
 
-        $this->assertDatabaseHas('replies', ['id' => $reply->id, 'body' => $updateBody ]);
+        $this->assertDatabaseHas('replies', ['id' => $reply->id, 'body' => $updatedReply]);
     }
 }

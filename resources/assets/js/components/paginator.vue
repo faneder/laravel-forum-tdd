@@ -37,8 +37,6 @@
 
         computed: {
             shoudlPaginate() {
-                console.log(this.prevUrl);
-                console.log(!!this.prevUrl);
                 return !! this.prevUrl || !!this.nextUrl;
             }
         },

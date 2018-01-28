@@ -20,6 +20,16 @@ class ThreadSubscription extends Model
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * Get the thread associated with the subscription.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function thread()
+    {
+        return $this->belongsTo(Thread::class);
+    }
+
     public function notify($reply)
     {
         $this->user->notify(new ThreadWasUpdated($this->thread, $reply));

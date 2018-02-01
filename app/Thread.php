@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Events\ThreadHasNewReply;
 use App\Filters\ThreadFilters;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -88,11 +89,8 @@ class Thread extends Model
     {
         $reply = $this->replies()->create($reply);
 
-        $this->subscriptions
-             ->where('user_id', '!=', $reply->user_id)
-             ->each
-             ->notify($reply);
-
+        event(new ThreadHasNewReply($this, $reply));
+        
         return $reply;
     }
 
@@ -134,5 +132,16 @@ class Thread extends Model
         return $this->subscriptions()
                     ->where('user_id', auth()->id())
                     ->exists();
+    }
+
+    /**
+     * Determine if the thread has been updated since the user last read it.
+     *
+     */
+    public function hasUpdatesFor($user)
+    {
+        $key = $user->visitedThreadCacheKey($this);
+
+        return $this->updated_at > cache($key);
     }
 }

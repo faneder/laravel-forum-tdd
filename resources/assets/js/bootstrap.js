@@ -20,7 +20,7 @@ require('bootstrap-sass');
 window.Vue = require('vue');
 
 Vue.prototype.authorize = function (handler) {
-    // add admin 
+    // add admin
     let user = window.App.user;
 
     return user ? handler(user) : false;
@@ -41,6 +41,6 @@ window.axios.defaults.headers.common = {
 
 window.events = new Vue();
 
-window.flash = function (msg) {
-	window.events.$emit('flash', msg);
+window.flash = function (message, level = 'success') {
+	window.events.$emit('flash', { message, level });
 }

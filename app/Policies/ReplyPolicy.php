@@ -22,6 +22,6 @@ class ReplyPolicy
     		return true;
     	}
 
-  		return ! $lastReply->wasJustPulished();
+  		return ! $lastReply->wasJustPublished();
     }
 }

@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 class ThreadsController extends Controller
 {
     /**
-     * ThreadsController constructor.
+     * Create a new ThreadsController instace
      */
     public function __construct()
     {

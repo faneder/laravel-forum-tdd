@@ -39,7 +39,7 @@ class RepliesController extends Controller
      */
     public function store($channelId, Thread $thread, CreatePostRequest $form)
     {
-        $reply = $thread->addReply([
+        return $reply = $thread->addReply([
             'body' => request('body'),
             'user_id' => auth()->id()
         ])
@@ -74,7 +74,7 @@ class RepliesController extends Controller
     public function update(Reply $reply)
     {
         $this->authorize('update', $reply);
-        
+
         try {
             $this->validate(request(), ['body' => 'required|spamfree']);
 

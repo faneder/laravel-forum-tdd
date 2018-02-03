@@ -10,24 +10,19 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class ThreadHasNewReply
+class ThreadReceivedNewReply
 {
-    use SerializesModels;
-
-    public $thread;
+    use Dispatchable, SerializesModels;
 
     public $reply;
-    
+
     /**
      * Create a new event instance.
      *
-     * @param \App\Thread $thread
-     * @param \App\Reply $reply
+     * @return void
      */
-    public function __construct($thread, $reply)
+    public function __construct($reply)
     {
-        $this->thread = $thread;
-
         $this->reply = $reply;
     }
 }

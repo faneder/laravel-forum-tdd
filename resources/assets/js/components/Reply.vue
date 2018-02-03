@@ -71,9 +71,8 @@
                 .catch(err => {
                     flash(err.response.data, 'danger');
                 });
-
-
             },
+            
             destroy() {
                 axios.delete('/replies/' + this.data.id);
                 this.$emit('deleted', this.data.id);

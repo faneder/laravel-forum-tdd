@@ -14,7 +14,7 @@
     import Reply from './Reply.vue';
     import NewReply from './NewReply.vue';
     import collection from '../mixins/collection';
-    
+
     export default {
         components: { Reply, NewReply },
         mixins: [collection],

@@ -16,10 +16,10 @@ class NotifyMentionedUsers
      */
     public function handle(ThreadReceivedNewReply $event)
     {
-        User:whereIn('name', $event->reply->metionedUsers())
+        User::whereIn('name', $event->reply->mentionedUsers())
             ->get()
             ->each(function ($user) use ($event) {
                 $user->notify(new YouWereMentioned($event->reply));
             });
-    }
+        }
 }

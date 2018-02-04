@@ -34,4 +34,20 @@ class MentionUsersTest extends TestCase
 
         $this->assertCount(1, $jane->notifications);
     }
+
+    function test_it_can_fetch_all_mentioned_users_excep_myself_starting_with_the_given_characters()
+    {
+        $user = create('App\User', ['name' => 'johnmyself']);
+
+        $this->signIn($user);
+
+        create('App\User', ['name' => 'johndoe']);
+        create('App\User', ['name' => 'johndoe2']);
+        create('App\User', ['name' => 'janedoe']);
+
+        $results = $this->json('GET', '/api/users', ['name' => 'john']);
+
+        $this->assertNotContains($user->name, $results->json());
+        $this->assertCount(2, $results->json());
+    }
 }

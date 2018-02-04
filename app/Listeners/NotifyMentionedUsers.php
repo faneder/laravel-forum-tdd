@@ -21,5 +21,5 @@ class NotifyMentionedUsers
             ->each(function ($user) use ($event) {
                 $user->notify(new YouWereMentioned($event->reply));
             });
-        }
+    }
 }

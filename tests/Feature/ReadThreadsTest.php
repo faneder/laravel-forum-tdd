@@ -79,7 +79,7 @@ class ReadThreadsTest extends TestCase
 
         $response = $this->getJson('threads?popular=1')->json();
 
-        $this->assertEquals([3, 2, 0], array_column($response, 'replies_count'));
+        $this->assertEquals([3, 2, 0], array_column($response['data'], 'replies_count'));
     }
 
     function test_a_user_can_request_all_replies_for_a_given_thread()
@@ -94,13 +94,13 @@ class ReadThreadsTest extends TestCase
         $this->assertEquals(2, $response['total']);
     }
 
-    function a_user_can_filter_threads_by_thouse_that_are_unawswered()
+    function a_user_can_filter_threads_by_thouse_that_are_unanwswered()
     {
         $thread = create('App\Thread');
         create('App\Reply', ['thread_id' => $thread->id]);
 
         $response = $this->getJson('threads?unanswered=1')->json();
 
-        $this->assertCount(1, $response); 
+        $this->assertCount(1, $response['data']);
     }
 }

@@ -43,5 +43,9 @@ Route::get('/profiles/{user}/notifications', 'UserNotificationsController@index'
 
 Route::middleware('auth')->prefix('api')->group(function () {
     Route::get('/users', 'Api\UsersController@index');
+
+	Route::post('/users/{user}/avatar', 'Api\UserAvatarController@store')->name('avatar');
 });
+
+
 

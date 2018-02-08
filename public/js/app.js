@@ -27611,6 +27611,7 @@ Vue.component('reply', __webpack_require__(13));
 Vue.component('thread-view', __webpack_require__(173));
 Vue.component('user-notifications', __webpack_require__(186));
 Vue.component('paginator', __webpack_require__(189));
+Vue.component('avatar-form', __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./components/AvatarForm.vue\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())));
 
 var app = new Vue({
   el: '#app'

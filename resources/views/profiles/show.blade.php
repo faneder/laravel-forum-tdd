@@ -10,6 +10,11 @@
                     </h1>
                 </div>
 
+                @can('update', $profileUser)
+                <form method="POST" enctype="multipart/form-data">
+                </form>
+                @endcan
+
                 @forelse ($activities as $date => $activity)
                     <h3 class="page-header">{{ $date }}</h3>
 

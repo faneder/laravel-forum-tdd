@@ -27584,7 +27584,7 @@ return zhTw;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(134);
-module.exports = __webpack_require__(192);
+module.exports = __webpack_require__(198);
 
 
 /***/ }),
@@ -27611,7 +27611,7 @@ Vue.component('reply', __webpack_require__(13));
 Vue.component('thread-view', __webpack_require__(173));
 Vue.component('user-notifications', __webpack_require__(186));
 Vue.component('paginator', __webpack_require__(189));
-Vue.component('avatar-form', __webpack_require__(202));
+Vue.component('avatar-form', __webpack_require__(192));
 
 var app = new Vue({
   el: '#app'
@@ -59503,7 +59503,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     data: function data() {
         return {
-            body: '',
+            body: this.message,
             level: 'success',
             show: false
         };
@@ -59512,7 +59512,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         var _this = this;
 
         if (this.message) {
-            this.flash(this.mesage);
+            this.flash();
         }
 
         window.events.$on('flash', function (data) {
@@ -59523,8 +59523,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         flash: function flash(data) {
-            this.body = data.message;
-            this.level = data.level;
+            if (data) {
+                this.body = data.message;
+                this.level = data.level;
+            }
             this.show = true;
 
             this.hide();
@@ -62605,29 +62607,14 @@ if (false) {
 
 /***/ }),
 /* 192 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 193 */,
-/* 194 */,
-/* 195 */,
-/* 196 */,
-/* 197 */,
-/* 198 */,
-/* 199 */,
-/* 200 */,
-/* 201 */,
-/* 202 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var Component = __webpack_require__(2)(
   /* script */
-  __webpack_require__(204),
+  __webpack_require__(193),
   /* template */
-  __webpack_require__(203),
+  __webpack_require__(197),
   /* styles */
   null,
   /* scopeId */
@@ -62659,53 +62646,12 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 203 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_c('div', {
-    staticClass: "level"
-  }, [_c('img', {
-    staticClass: "mr-1",
-    attrs: {
-      "src": _vm.avatar,
-      "width": "50",
-      "height": "50"
-    }
-  }), _vm._v(" "), _c('h1', {
-    domProps: {
-      "textContent": _vm._s(_vm.user.name)
-    }
-  })]), _vm._v(" "), (_vm.canUpdate) ? _c('form', {
-    attrs: {
-      "method": "POST",
-      "enctype": "multipart/form-data"
-    }
-  }, [_c('image-upload', {
-    staticClass: "mr-1",
-    attrs: {
-      "name": "avatar"
-    },
-    on: {
-      "loaded": _vm.onLoad
-    }
-  })], 1) : _vm._e()])
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-7d7350c6", module.exports)
-  }
-}
-
-/***/ }),
-/* 204 */
+/* 193 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ImageUpload_vue__ = __webpack_require__(205);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ImageUpload_vue__ = __webpack_require__(194);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ImageUpload_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__ImageUpload_vue__);
 //
 //
@@ -62764,15 +62710,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 205 */
+/* 194 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var Component = __webpack_require__(2)(
   /* script */
-  __webpack_require__(206),
+  __webpack_require__(195),
   /* template */
-  __webpack_require__(207),
+  __webpack_require__(196),
   /* styles */
   null,
   /* scopeId */
@@ -62804,7 +62750,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 206 */
+/* 195 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -62837,7 +62783,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 207 */
+/* 196 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -62858,6 +62804,53 @@ if (false) {
      require("vue-hot-reload-api").rerender("data-v-84f8a1fa", module.exports)
   }
 }
+
+/***/ }),
+/* 197 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', [_c('div', {
+    staticClass: "level"
+  }, [_c('img', {
+    staticClass: "mr-1",
+    attrs: {
+      "src": _vm.avatar,
+      "width": "50",
+      "height": "50"
+    }
+  }), _vm._v(" "), _c('h1', {
+    domProps: {
+      "textContent": _vm._s(_vm.user.name)
+    }
+  })]), _vm._v(" "), (_vm.canUpdate) ? _c('form', {
+    attrs: {
+      "method": "POST",
+      "enctype": "multipart/form-data"
+    }
+  }, [_c('image-upload', {
+    staticClass: "mr-1",
+    attrs: {
+      "name": "avatar"
+    },
+    on: {
+      "loaded": _vm.onLoad
+    }
+  })], 1) : _vm._e()])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-7d7350c6", module.exports)
+  }
+}
+
+/***/ }),
+/* 198 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);

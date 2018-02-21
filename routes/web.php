@@ -12,13 +12,15 @@
 */
 
 Route::get('/', function () {
+	\Mail::to(App\User::first())->send(new \App\Mail\PleaseConfirmYourEmail());
+
     return view('welcome');
 });
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index');
-Route::get('threads', 'ThreadsController@index');
+Route::get('threads', 'ThreadsController@index')->name('threads');
 Route::get('threads/create', 'ThreadsController@create');
 Route::get('threads/{channel}/{thread}', 'ThreadsController@show');
 Route::delete('threads/{channel}/{thread}', 'ThreadsController@destroy');
@@ -47,5 +49,9 @@ Route::middleware('auth')->prefix('api')->group(function () {
 	Route::post('/users/{user}/avatar', 'Api\UserAvatarController@store')->name('avatar');
 });
 
+Route::get('/register/confirm', 'Auth\RegisterConfirmationController@index')->name('register.confirm');
 
 
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

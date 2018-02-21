@@ -15,6 +15,7 @@ class AddComfirmedToUsers extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->boolean('confirmed')->default(false);
+            $table->string('confirmation_token', 25)->nullable();
         });
     }
 

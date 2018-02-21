@@ -72,14 +72,14 @@ class ThreadTest extends TestCase
         $this->assertFalse($thread->isSubscribedTo);
 
         $thread->subscribe();
-        
+
         $this->assertTrue($thread->isSubscribedTo);
     }
 
     function test_a_thread_notifies_all_subscriber_when_a_reply_is_added()
     {
         Notification::fake();
-        
+
         $user = create('App\User');
 
         $this->signIn()

@@ -11,6 +11,12 @@ class PleaseConfirmYourEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
+    /* the user associated with the email
+     *
+     *
+     */
+    public $user;
+
     /**
      * Create a new message instance.
      *

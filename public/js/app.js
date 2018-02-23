@@ -27642,12 +27642,23 @@ __webpack_require__(137);
 
 window.Vue = __webpack_require__(138);
 
-Vue.prototype.authorize = function (handler) {
-  // add admin
-  var user = window.App.user;
+var authorizations = __webpack_require__(208);
 
-  return user ? handler(user) : false;
+Vue.prototype.authorize = function () {
+  if (!window.App.signedIn) return false;
+
+  for (var _len = arguments.length, params = Array(_len), _key = 0; _key < _len; _key++) {
+    params[_key] = arguments[_key];
+  }
+
+  if (typeof params[0] === 'string') {
+    return authorizations[params[0]](params[1]);
+  }
+
+  return params[0](window.App.user);
 };
+
+Vue.prototype.signedIn = window.App.signedIn;
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
@@ -59616,6 +59627,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 
@@ -59626,7 +59640,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return {
             editing: false,
             id: this.data.id,
-            body: this.data.body
+            body: this.data.body,
+            isBest: this.data.isBest,
+            reply: this.data
         };
     },
 
@@ -59645,18 +59661,31 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         }
     },
+    created: function created() {
+        var _this2 = this;
+
+        window.events.$on('best-reply-selected', function (id) {
+            _this2.isBest = id === _this2.id;
+        });
+    },
+
     methods: {
         update: function update() {
-            var _this2 = this;
+            var _this3 = this;
 
             axios.patch('/replies/' + this.data.id, {
                 body: this.body
             }).then(function () {
-                _this2.editing = false;
+                _this3.editing = false;
                 flash('Updated!');
             }).catch(function (err) {
                 flash(err.response.data, 'danger');
             });
+        },
+        markBestReply: function markBestReply() {
+            axios.post('/replies/' + this.data.id + '/best');
+
+            window.events.$emit('best-reply-selected', this.data.id);
         },
         destroy: function destroy() {
             axios.delete('/replies/' + this.data.id);
@@ -60054,7 +60083,8 @@ webpackContext.id = 171;
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
-    staticClass: "panel panel-default",
+    staticClass: "panel",
+    class: _vm.isBest ? 'panel-success' : 'panel-default',
     attrs: {
       "id": 'reply-' + _vm.id
     }
@@ -60112,20 +60142,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     on: {
       "click": _vm.update
     }
-  }, [_vm._v("Update")]), _vm._v("\t\t +\n                "), _c('button', {
-    staticClass: "btn btn-xs btn-link",
-    on: {
-      "click": function($event) {
-        _vm.editing = false
-      }
-    }
-  }, [_vm._v("Cancel")]), _vm._v("\t\t +                    "), _c('button', {
-    staticClass: "btn btn-xs btn-primary"
   }, [_vm._v("Update")]), _vm._v(" "), _c('button', {
     staticClass: "btn btn-xs btn-link",
-    attrs: {
-      "type": "button"
-    },
     on: {
       "click": function($event) {
         _vm.editing = false
@@ -60135,9 +60153,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     domProps: {
       "innerHTML": _vm._s(_vm.body)
     }
-  })]), _vm._v(" "), (_vm.canUpdate) ? _c('div', {
+  })]), _vm._v(" "), _c('div', {
     staticClass: "panel-footer level"
-  }, [_c('button', {
+  }, [(_vm.authorize('updateReply', _vm.reply)) ? _c('div', [_c('button', {
     staticClass: "btn btn-xs mr-1",
     on: {
       "click": function($event) {
@@ -60149,7 +60167,18 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     on: {
       "click": _vm.destroy
     }
-  }, [_vm._v("Delete")])]) : _vm._e()])
+  }, [_vm._v("Delete")])]) : _vm._e(), _vm._v(" "), _c('button', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (!_vm.isBest),
+      expression: "! isBest"
+    }],
+    staticClass: "btn btn-xs btn-default ml-a",
+    on: {
+      "click": _vm.markBestReply
+    }
+  }, [_vm._v("Best Reply?")])])])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -60437,12 +60466,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         };
     },
 
-
-    computed: {
-        signedIn: function signedIn() {
-            return window.App.signedIn;
-        }
-    },
 
     methods: {
         addReply: function addReply() {
@@ -62851,6 +62874,27 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 199 */,
+/* 200 */,
+/* 201 */,
+/* 202 */,
+/* 203 */,
+/* 204 */,
+/* 205 */,
+/* 206 */,
+/* 207 */,
+/* 208 */
+/***/ (function(module, exports) {
+
+var user = window.App.user;
+
+module.exports = {
+    updateReply: function updateReply(reply) {
+        return reply.user_id === user.id;
+    }
+};
 
 /***/ })
 /******/ ]);

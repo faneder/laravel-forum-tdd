@@ -76,7 +76,7 @@ class RegisterController extends Controller
     /*
      * The user has been registered
      */
-    protected function registered(Request $request, $user)
+    protected function registered($user)
     {
         Mail::to($user)->send(new PleaseConfirmYourEmail($user));
     }

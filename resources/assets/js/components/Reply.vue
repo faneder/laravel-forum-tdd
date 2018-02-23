@@ -1,5 +1,5 @@
 <template>
-    <div :id="'reply-'+id" class="panel panel-default">
+    <div :id="'reply-'+id" class="panel" :class="isBest ? 'panel-success': 'panel-default'">
         <div class="panel-heading">
             <div class="level">
                 <h5 class="flex">
@@ -20,18 +20,21 @@
                     <div class="form-group">
                         <textarea class="form-control" v-model="body" required></textarea>
                      </div>
-                    <button class="btn btn-xs btn-primary" @click="update">Update</button>		 +
-                    <button class="btn btn-xs btn-link" @click="editing = false">Cancel</button>		 +                    <button class="btn btn-xs btn-primary">Update</button>
-                    <button class="btn btn-xs btn-link" @click="editing = false" type="button">Cancel</button>
+                    <button class="btn btn-xs btn-primary" @click="update">Update</button>
+                    <button class="btn btn-xs btn-link" @click="editing = false">Cancel</button>
                 </form>
             </div>
 
             <div v-else v-html="body"></div>
         </div>
 
-        <div class="panel-footer level" v-if="canUpdate">
-            <button class="btn btn-xs mr-1" @click="editing = true">Edit</button>
-            <button class="btn btn-xs btn-danger mr-1" @click="destroy">Delete</button>
+        <div class="panel-footer level">
+            <div v-if="authorize('updateReply', reply)">
+                <button class="btn btn-xs mr-1" @click="editing = true">Edit</button>
+                <button class="btn btn-xs btn-danger mr-1" @click="destroy">Delete</button>
+            </div>
+
+            <button class="btn btn-xs btn-default ml-a" @click="markBestReply" v-show="! isBest">Best Reply?</button>
         </div>
     </div>
 </template>
@@ -46,7 +49,9 @@
             return {
                 editing: false,
                 id: this.data.id,
-                body: this.data.body
+                body: this.data.body,
+                isBest: this.data.isBest,
+                reply: this.data
             };
         },
         computed: {
@@ -59,6 +64,11 @@
             canUpdate() {
                 return this.authorize(user => this.data.user_id == user.id);
             }
+        },
+        created () {
+            window.events.$on('best-reply-selected', id => {
+                this.isBest = (id === this.id);
+            });
         },
         methods: {
             update() {
@@ -73,6 +83,12 @@
                 .catch(err => {
                     flash(err.response.data, 'danger');
                 });
+            },
+
+            markBestReply() {
+                axios.post('/replies/' + this.data.id + '/best');
+
+                window.events.$emit('best-reply-selected', this.data.id);
             },
 
             destroy() {

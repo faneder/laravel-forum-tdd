@@ -41,6 +41,11 @@ Route::get('/profiles/{user}', 'ProfilesController@show')->name('profile');
 Route::delete('/profiles/{user}/notifications/{notification}', 'UserNotificationsController@destroy');
 Route::get('/profiles/{user}/notifications', 'UserNotificationsController@index');
 
+Route::middleware('auth')->group(function () {
+	Route::post('/replies/{reply}/best', 'BestRepliesController@store')->name('best-replies.store');
+});
+
+
 Route::middleware('auth')->prefix('api')->group(function () {
     Route::get('/users', 'Api\UsersController@index');
 

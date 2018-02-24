@@ -15,7 +15,6 @@ class CreateSlugInThread extends Migration
     {
         Schema::table('threads', function (Blueprint $table) {
             $table->string('slug')->nullable()->unique();
-            $table->unsignedInteger('best_reply_id')->nullable();
         });
     }
 
@@ -26,6 +25,8 @@ class CreateSlugInThread extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('threads', function (Blueprint $table) {
+            $table->dropColumn(['slug']);
+        });
     }
 }

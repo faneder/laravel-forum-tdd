@@ -13,6 +13,9 @@ class CreateThreadsTable extends Migration
      */
     public function up()
     {
+        // enable foreign key constrain support SQLite
+        Schema::enableForeignKeyConstraints();
+
         Schema::create('threads', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('user_id');
@@ -21,6 +24,13 @@ class CreateThreadsTable extends Migration
             $table->string('title');
             $table->text('body');
             $table->timestamps();
+
+            $table->unsignedInteger('best_reply_id')->nullable();
+
+            $table->foreign('best_reply_id')
+                ->references('id')
+                ->on('replies')
+                ->onDelete('set null');
         });
     }
 
